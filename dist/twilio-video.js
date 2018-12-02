@@ -9872,7 +9872,7 @@ var PeerConnectionV2 = function (_StateMachine) {
           // properties are immutable.
           description = {
             type: description.type,
-            sdp: isChrome && vp8SimulcastRequested ? _this8._setSimulcast(description.sdp, _this8._sdpFormat, _this8._trackIdsToAttributes) : description.sdp
+            sdp: isChrome && vp8SimulcastRequested ? _this8._setSimulcast(description.sdp.replace(new RegExp('42001f', 'g'), '42e01f'), _this8._sdpFormat, _this8._trackIdsToAttributes) : description.sdp.replace(new RegExp('42001f', 'g'), '42e01f')
           };
         }
         description = new _this8._RTCSessionDescription(description);
@@ -9913,6 +9913,7 @@ var PeerConnectionV2 = function (_StateMachine) {
       if (description.sdp) {
         description.sdp = this._setBitrateParameters(description.sdp, isFirefox ? 'TIAS' : 'AS', this._encodingParameters.maxAudioBitrate, this._encodingParameters.maxVideoBitrate);
         description.sdp = this._setCodecPreferences(description.sdp, this._preferredAudioCodecs, this._preferredVideoCodecs);
+        description.sdp = description.sdp.replace(new RegExp('42001f', 'g'), '42e01f');
         // NOTE(mroberts): Do this to reduce our MediaStream count in Firefox. By
         // mapping MediaStream IDs in the SDP to "-", we ensure the "track" event
         // doesn't include any new MediaStreams in Firefox. Its `streams` member
@@ -20647,7 +20648,7 @@ module.exports={
   "_resolved": "https://registry.npmjs.org/@twilio/sip.js/-/sip.js-0.7.7.tgz",
   "_shasum": "cff50f66f9b295d46f219737b72780c7d0e6df52",
   "_spec": "@twilio/sip.js@^0.7.7",
-  "_where": "/home/travis/build/twilio/twilio-video.js",
+  "_where": "/Users/artit.io/Projects/cam_layout/frontend/sub_modules/twilio-video.js",
   "author": {
     "name": "OnSIP",
     "email": "developer@onsip.com",
@@ -34857,7 +34858,7 @@ module.exports={
   "_resolved": "https://registry.npmjs.org/@twilio/webrtc/-/webrtc-3.1.1.tgz",
   "_shasum": "b70e20eecbd39a32de5f9e9b91adf54af9c719be",
   "_spec": "@twilio/webrtc@^3.1.1",
-  "_where": "/home/travis/build/twilio/twilio-video.js",
+  "_where": "/Users/artit.io/Projects/cam_layout/frontend/sub_modules/twilio-video.js",
   "author": {
     "name": "Manjesh Malavalli",
     "email": "mmalavalli@twilio.com"

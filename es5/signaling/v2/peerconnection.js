@@ -649,8 +649,6 @@ var PeerConnectionV2 = function (_StateMachine) {
         return codecSettings.codec.toLowerCase() === 'vp8' && codecSettings.simulcast;
       });
 
-      description.sdp = description.sdp.replace('42001f', '42e01f');
-
       return Promise.resolve().then(function () {
         if (description.sdp) {
           // NOTE(mmalavalli): We do not directly modify "description.sdp" here as
@@ -658,7 +656,7 @@ var PeerConnectionV2 = function (_StateMachine) {
           // properties are immutable.
           description = {
             type: description.type,
-            sdp: isChrome && vp8SimulcastRequested ? _this8._setSimulcast(description.sdp, _this8._sdpFormat, _this8._trackIdsToAttributes) : description.sdp
+            sdp: isChrome && vp8SimulcastRequested ? _this8._setSimulcast(description.sdp.replace(new RegExp('42001f', 'g'), '42e01f'), _this8._sdpFormat, _this8._trackIdsToAttributes) : description.sdp.replace(new RegExp('42001f', 'g'), '42e01f')
           };
         }
         description = new _this8._RTCSessionDescription(description);
@@ -699,7 +697,7 @@ var PeerConnectionV2 = function (_StateMachine) {
       if (description.sdp) {
         description.sdp = this._setBitrateParameters(description.sdp, isFirefox ? 'TIAS' : 'AS', this._encodingParameters.maxAudioBitrate, this._encodingParameters.maxVideoBitrate);
         description.sdp = this._setCodecPreferences(description.sdp, this._preferredAudioCodecs, this._preferredVideoCodecs);
-        description.sdp = description.sdp.replace('42001f', '42e01f');
+        description.sdp = description.sdp.replace(new RegExp('42001f', 'g'), '42e01f');
         // NOTE(mroberts): Do this to reduce our MediaStream count in Firefox. By
         // mapping MediaStream IDs in the SDP to "-", we ensure the "track" event
         // doesn't include any new MediaStreams in Firefox. Its `streams` member
